@@ -1,0 +1,1359 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "project manager system",
+    "version" : "v1",
+    "title" : "srx-pms"
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/s881/srx-pms/v1",
+  "tags" : [ {
+    "name" : "PROJECT"
+  }, {
+    "name" : "STAGE"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/project" : {
+      "post" : {
+        "tags" : [ "PROJECT" ],
+        "summary" : "project create",
+        "operationId" : "projectCreate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ProjectPost"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "create success",
+            "schema" : {
+              "$ref" : "#/definitions/Project"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "PROJECT" ],
+        "summary" : "project update",
+        "operationId" : "projectUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/ProjectPost"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "Existed Category/Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/project/{id}" : {
+      "get" : {
+        "tags" : [ "PROJECT" ],
+        "summary" : "project",
+        "operationId" : "projectById",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Project"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/projects" : {
+      "get" : {
+        "tags" : [ "PROJECT" ],
+        "summary" : "project  list",
+        "operationId" : "projectList",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "brandId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "keyword",
+          "in" : "query",
+          "description" : "search id, name,address",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "default" : "OPEN",
+          "enum" : [ "OPEN", "CLOSE" ]
+        }, {
+          "name" : "sidx",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "default" : "timestamp",
+          "enum" : [ "timestamp", "name", "brandName", "customerId" ]
+        }, {
+          "name" : "sord",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "default" : "ase",
+          "enum" : [ "asc", "desc" ]
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "翻页 第几页，从0页开始",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "一页显示的条数 eg. 20,30,100",
+          "required" : false,
+          "type" : "integer",
+          "default" : 20,
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "add user success",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "page" : {
+                  "type" : "integer",
+                  "format" : "int32",
+                  "description" : "当前第几页   返回当前页的数目"
+                },
+                "size" : {
+                  "type" : "integer",
+                  "format" : "int32",
+                  "description" : "页面的大小,即每页显示多少条"
+                },
+                "totalPages" : {
+                  "type" : "integer",
+                  "format" : "int32",
+                  "description" : "分页总数"
+                },
+                "totalElements" : {
+                  "type" : "integer",
+                  "format" : "int64",
+                  "description" : "元素总数"
+                },
+                "content" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/Project"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/myProjects" : {
+      "get" : {
+        "tags" : [ "PROJECT" ],
+        "summary" : "project  list",
+        "operationId" : "myProjectList",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "brandId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "customerId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "keyword",
+          "in" : "query",
+          "description" : "search id, name,address",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "default" : "OPEN",
+          "enum" : [ "OPEN", "CLOSE" ]
+        }, {
+          "name" : "sidx",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "default" : "timestamp",
+          "enum" : [ "timestamp", "name", "brandName", "customerId" ]
+        }, {
+          "name" : "sord",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "default" : "ase",
+          "enum" : [ "asc", "desc" ]
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "翻页 第几页，从0页开始",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "一页显示的条数 eg. 20,30,100",
+          "required" : false,
+          "type" : "integer",
+          "default" : 20,
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "add user success",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "page" : {
+                  "type" : "integer",
+                  "format" : "int32",
+                  "description" : "当前第几页   返回当前页的数目"
+                },
+                "size" : {
+                  "type" : "integer",
+                  "format" : "int32",
+                  "description" : "页面的大小,即每页显示多少条"
+                },
+                "totalPages" : {
+                  "type" : "integer",
+                  "format" : "int32",
+                  "description" : "分页总数"
+                },
+                "totalElements" : {
+                  "type" : "integer",
+                  "format" : "int64",
+                  "description" : "元素总数"
+                },
+                "content" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/Project"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/closeProject" : {
+      "put" : {
+        "tags" : [ "PROJECT" ],
+        "summary" : "close project",
+        "operationId" : "projectColse",
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/nearbyProjects" : {
+      "put" : {
+        "tags" : [ "PROJECT" ],
+        "summary" : "nearby project by gps ,when we create project or update project information",
+        "operationId" : "projectsByGps",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "description" : "location array, double array",
+            "items" : {
+              "type" : "number"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Project"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/template" : {
+      "post" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "template create",
+        "operationId" : "templateCreate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TemplatePost"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "create success",
+            "schema" : {
+              "$ref" : "#/definitions/Template"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "Template update",
+        "operationId" : "templateUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/TemplatePost"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/template/{id}" : {
+      "get" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "template",
+        "operationId" : "templateById",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Template"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/templates" : {
+      "get" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "template  list",
+        "operationId" : "templateList",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "keyword",
+          "in" : "query",
+          "description" : "search name and subTitle",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : true,
+          "type" : "string",
+          "default" : "ENABLE",
+          "enum" : [ "ENABLE", "DISABLE" ]
+        }, {
+          "name" : "sidx",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "default" : "timestamp",
+          "enum" : [ "timestamp", "name", "userId" ]
+        }, {
+          "name" : "sord",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "default" : "ase",
+          "enum" : [ "asc", "desc" ]
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "翻页 第几页，从0页开始",
+          "required" : false,
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0
+        }, {
+          "name" : "size",
+          "in" : "query",
+          "description" : "一页显示的条数 eg. 20,30,100",
+          "required" : false,
+          "type" : "integer",
+          "default" : 20,
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "add user success",
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "page" : {
+                  "type" : "integer",
+                  "format" : "int32",
+                  "description" : "当前第几页   返回当前页的数目"
+                },
+                "size" : {
+                  "type" : "integer",
+                  "format" : "int32",
+                  "description" : "页面的大小,即每页显示多少条"
+                },
+                "totalPages" : {
+                  "type" : "integer",
+                  "format" : "int32",
+                  "description" : "分页总数"
+                },
+                "totalElements" : {
+                  "type" : "integer",
+                  "format" : "int64",
+                  "description" : "元素总数"
+                },
+                "content" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/definitions/Template"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/templateToggleStatus" : {
+      "put" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "close project",
+        "operationId" : "templateToggleStatus",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/body"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/stage" : {
+      "post" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "stage create",
+        "operationId" : "stageCreate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/StagePost"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "create success",
+            "schema" : {
+              "$ref" : "#/definitions/Stage"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "stage update",
+        "operationId" : "stageUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/StagePost"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/stage/{id}" : {
+      "get" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "stageById",
+        "operationId" : "stageById",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/Stage"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/stages" : {
+      "get" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "stage  list",
+        "operationId" : "stageListByTemplate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "templateId",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "add user success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Stage"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/setProjectTemplate" : {
+      "post" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "project stage create,or change projectTemplate if  all the value of project stage formData is null; return",
+        "operationId" : "projectTemplateCrete",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/body_1"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "project stage success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProjectStage"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/projectStage" : {
+      "put" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "We can update projectStage when status is not confirmed ,and server will create a stage history and change status to done",
+        "operationId" : "projectStageUpdate",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/body_2"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/projectStage/{id}" : {
+      "get" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "project stage  by id",
+        "operationId" : "projectStageById",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/ProjectStage"
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/projectStageToggleStatus" : {
+      "put" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "toggle status",
+        "operationId" : "projectStageToggleStatus",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/body_3"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/projectStages" : {
+      "get" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "stageByProjectId",
+        "operationId" : "stageByProjectId",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectId",
+          "in" : "query",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "add user success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProjectStage"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    },
+    "/stageHistories" : {
+      "get" : {
+        "tags" : [ "STAGE" ],
+        "summary" : "stageHistories",
+        "operationId" : "stageHistoryList",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "projectStageId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/StageHistory"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid parameter supplied"
+          },
+          "401" : {
+            "description" : "Unauthorized"
+          },
+          "404" : {
+            "description" : "not found"
+          },
+          "441" : {
+            "description" : "No promission"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "ProjectPost" : {
+      "type" : "object",
+      "required" : [ "address", "customerId", "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "customerId" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "GPS" : {
+          "type" : "array",
+          "description" : "location array, double array",
+          "items" : {
+            "type" : "number"
+          }
+        },
+        "address" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Project" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "brandId" : {
+          "type" : "string"
+        },
+        "brandName" : {
+          "type" : "string"
+        },
+        "customerId" : {
+          "type" : "string"
+        },
+        "customerName" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "status" : { },
+        "GPS" : {
+          "type" : "array",
+          "description" : "location array, double array",
+          "items" : {
+            "type" : "number"
+          }
+        },
+        "address" : {
+          "type" : "string"
+        },
+        "timestamp" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "TemplatePost" : {
+      "type" : "object",
+      "required" : [ "content", "name" ],
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "subTitme" : {
+          "type" : "object",
+          "description" : "it's a json object",
+          "properties" : { }
+        },
+        "content" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Template" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "subTitme" : {
+          "type" : "object",
+          "description" : "it's a json object",
+          "properties" : { }
+        },
+        "content" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "ENABLE", "DISABLE" ]
+        },
+        "timestamp" : {
+          "type" : "integer"
+        },
+        "userId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Stage" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "template" : {
+          "$ref" : "#/definitions/Template"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "schema" : {
+          "type" : "object",
+          "description" : "a json object",
+          "properties" : { }
+        },
+        "schemaUI" : {
+          "type" : "object",
+          "description" : "a json object",
+          "properties" : { }
+        },
+        "condition" : {
+          "type" : "string"
+        },
+        "trigger" : {
+          "type" : "string"
+        }
+      }
+    },
+    "StagePost" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "template" : {
+          "type" : "string",
+          "description" : "this is a id"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "schema" : {
+          "type" : "object",
+          "description" : "a json object",
+          "properties" : { }
+        },
+        "schemaUI" : {
+          "type" : "object",
+          "description" : "a json object",
+          "properties" : { }
+        },
+        "condition" : {
+          "type" : "string"
+        },
+        "trigger" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ProjectStage" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "template" : {
+          "type" : "string"
+        },
+        "stage" : {
+          "$ref" : "#/definitions/Stage"
+        },
+        "formData" : {
+          "type" : "object",
+          "description" : "a json onject",
+          "properties" : { }
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "OPEN", "DONE", "CONFIRMED" ]
+        },
+        "comment" : {
+          "type" : "string"
+        },
+        "timestamp" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "StageHistory" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "projectStageId" : {
+          "type" : "string"
+        },
+        "formData" : {
+          "type" : "object",
+          "description" : "it's a json",
+          "properties" : { }
+        },
+        "commint" : {
+          "type" : "string"
+        },
+        "timestamp" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "inline_response_200" : {
+      "properties" : {
+        "page" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "当前第几页   返回当前页的数目"
+        },
+        "size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "页面的大小,即每页显示多少条"
+        },
+        "totalPages" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "分页总数"
+        },
+        "totalElements" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "元素总数"
+        },
+        "content" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Project"
+          }
+        }
+      }
+    },
+    "inline_response_200_1" : {
+      "properties" : {
+        "page" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "当前第几页   返回当前页的数目"
+        },
+        "size" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "页面的大小,即每页显示多少条"
+        },
+        "totalPages" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "分页总数"
+        },
+        "totalElements" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "元素总数"
+        },
+        "content" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Template"
+          }
+        }
+      }
+    },
+    "body" : {
+      "type" : "object",
+      "required" : [ "status", "templateId" ],
+      "properties" : {
+        "templateId" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "ENABLE", "DISABLE" ]
+        }
+      }
+    },
+    "body_1" : {
+      "type" : "object",
+      "properties" : {
+        "projectId" : {
+          "type" : "string"
+        },
+        "templateId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "body_2" : {
+      "type" : "object",
+      "required" : [ "comment", "formData", "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "formData" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "comment" : {
+          "type" : "string"
+        }
+      }
+    },
+    "body_3" : {
+      "type" : "object",
+      "required" : [ "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "OPEN", "DONE", "CONFIRMED" ]
+        }
+      }
+    }
+  }
+}
