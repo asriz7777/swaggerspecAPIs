@@ -1,0 +1,155 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This is a Townfolio Platform API Documentation",
+    "version" : "1.0.0",
+    "title" : "Townfolio Platform API",
+    "contact" : {
+      "email" : "vimal@townfolio.ca"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "api.townfolio.co",
+  "basePath" : "/v1",
+  "tags" : [ {
+    "name" : "communities",
+    "description" : "Everything about communities"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/communities" : {
+      "get" : {
+        "tags" : [ "communities" ],
+        "summary" : "List of all Communities",
+        "description" : "This Endpoint returns all communities",
+        "operationId" : "findPetsByStatus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "400" : {
+            "description" : "Invalid status value"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/communities/{communityId}" : {
+      "get" : {
+        "tags" : [ "communities" ],
+        "summary" : "get given community info",
+        "description" : "This Endpoint returns given community info",
+        "operationId" : "findCommunityById",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "communityId",
+          "in" : "path",
+          "description" : "community ID.",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "400" : {
+            "description" : "Invalid status value"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/communities/{communityId}/{section}" : {
+      "get" : {
+        "tags" : [ "communities" ],
+        "summary" : "Charts per Section",
+        "description" : "This Endpoint returns given community's given section chart information",
+        "operationId" : "getSectionChartsData",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "communityId",
+          "in" : "path",
+          "description" : "community ID.",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        }, {
+          "name" : "section",
+          "in" : "path",
+          "description" : "Section Name.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "400" : {
+            "description" : "Invalid status value"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/communities/{communityId}/{section}/{chart}" : {
+      "get" : {
+        "tags" : [ "communities" ],
+        "summary" : "Individual chart data",
+        "description" : "This Endpoint returns given community's given section chart information",
+        "operationId" : "getChartData",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "communityId",
+          "in" : "path",
+          "description" : "community ID.",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 1
+        }, {
+          "name" : "section",
+          "in" : "path",
+          "description" : "Section Name.",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "chart",
+          "in" : "path",
+          "description" : "Chart Name.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "400" : {
+            "description" : "Invalid status value"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Bearer" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    }
+  },
+  "definitions" : { }
+}
